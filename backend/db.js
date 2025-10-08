@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"); // mongoose library -ODM ( Object Document mapping ) tool for mongoDB
-mongoose.connect("");
+mongoose.connect("mongodb://localhost:27017/db-paytm");
 
 // Schema defined ( userSchema = Schema object)
 const userSchema = new mongoose.Schema({
@@ -32,10 +32,25 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+const accountSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true 
+    },
+    balance: {
+        type: Number,
+        required: true
+    }
+});
+
+const Account = mongoose.model("Account",accountSchema);
+
 // model create : A function which provides method to interact with database.
-const User = mongoose.Model("User",userSchema);
+const User = mongoose.model("User",userSchema);
 
 module.exports= {
-    User
+    User,
+    Account
 };
 
